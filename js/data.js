@@ -83,16 +83,16 @@ function generateData(loc) {
     // Koordinat di-trace dari OpenStreetMap
     // --------------------------------------------------------
     const coords = [
-      [-6.3380, 106.8235, 'Dermaga Utara'],
-      [-6.3385, 106.8270, 'Gazebo Timur Laut'],
-      [-6.3408, 106.8290, 'Pos Pantau Timur'],
-      [-6.3440, 106.8285, 'Inlet Kali Krukut'],
-      [-6.3460, 106.8260, 'Dermaga Tenggara'],
-      [-6.3465, 106.8230, 'Area Rekreasi Selatan'],
-      [-6.3455, 106.8200, 'Outlet Selatan'],
-      [-6.3430, 106.8190, 'Warung Apung Barat'],
-      [-6.3405, 106.8195, 'Area Budidaya Ikan'],
-      [-6.3390, 106.8215, 'Inlet Barat Laut'],
+      [-6.338738, 106.826567, 'Dermaga Utara'],
+      [-6.339702, 106.825499, 'Gazebo Timur Laut'],
+      [-6.341771, 106.821541, 'Pos Pantau Timur'],
+      [-6.342404, 106.823447, 'Inlet Kali Krukut'],
+      [-6.344340, 106.820071, 'Dermaga Tenggara'],
+      [-6.345205, 106.820880, 'Area Rekreasi Selatan'],
+      [-6.346301, 106.819193, 'Outlet Selatan'],
+      [-6.347722, 106.817463, 'Warung Apung Barat'],
+      [-6.348015, 106.819502, 'Area Budidaya Ikan'],
+      [-6.349331, 106.816104, 'Inlet Barat Laut'],
     ];
 
     coords.forEach((c, i) => {
