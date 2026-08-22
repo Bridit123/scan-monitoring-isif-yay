@@ -1,4 +1,4 @@
-# AQUASCAN — Sistem Pemantauan Kualitas Air 🌊
+# AQUASCAN — Sistem Pemantauan Kualitas Air 
 
 ![AQUASCAN](https://img.shields.io/badge/AQUASCAN-v1.0.0-0D9488?style=for-the-badge)
 ![ISIF 2026](https://img.shields.io/badge/ISIF-2026-0A2E4D?style=for-the-badge)
@@ -6,7 +6,7 @@
 
 Sistem pemantauan kualitas air berbasis robot otomatis dengan peta interaktif **OpenStreetMap**. Dashboard ini menampilkan data sensor (pH, TDS, Turbiditas, Suhu) dari titik-titik pemantauan di sepanjang badan air.
 
-## 🌟 Fitur
+## Fitur
 
 - **Peta OpenStreetMap Interaktif** — Zoom, pan, dan navigasi menggunakan Leaflet.js
 - **Marker GPS Akurat** — Koordinat di-trace langsung dari OpenStreetMap
@@ -16,21 +16,21 @@ Sistem pemantauan kualitas air berbasis robot otomatis dengan peta interaktif **
 - **Sparkline Trend** — Grafik tren per parameter sensor
 - **Responsive Design** — Desktop, tablet, dan mobile
 
-## 📍 Lokasi Pemantauan
+##  Lokasi Pemantauan
 
 | Lokasi | Jumlah Titik | Deskripsi |
 |--------|-------------|-----------|
 | Sungai Ciliwung, Depok | 16 titik | Aliran sungai dari area UI/Pondok Cina hingga Cilodong |
 | Setu Babakan, Jakarta Selatan | 10 titik | Keliling danau di Perkampungan Budaya Betawi |
 
-## 🛠 Teknologi
+## Teknologi
 
 - **HTML5** + **CSS3** + **JavaScript** (Vanilla)
 - **[Leaflet.js](https://leafletjs.com/)** v1.9.4 — Library peta interaktif
 - **[OpenStreetMap](https://www.openstreetmap.org/)** — Tile provider
 - **Google Fonts** — Inter, Plus Jakarta Sans, IBM Plex Mono
 
-## 📂 Struktur Proyek
+## Struktur Proyek
 
 ```
 AQUASCAN/
@@ -48,7 +48,7 @@ AQUASCAN/
 └── README.md
 ```
 
-## 🚀 Cara Menjalankan
+## Cara Menjalankan
 
 1. Clone repository:
    ```bash
@@ -62,7 +62,7 @@ AQUASCAN/
 
 3. Tidak perlu instalasi dependensi — semua library di-load via CDN.
 
-## 📊 Kategori Indeks Pencemar (IP)
+## Kategori Indeks Pencemar (IP)
 
 | Kategori | Range IP | Warna |
 |----------|----------|-------|
@@ -73,11 +73,11 @@ AQUASCAN/
 
 > Kategori mutu air merujuk pada skala Indeks Pencemar (IP) sesuai **Peraturan Menteri LHK No. 27 Tahun 2021**.
 
-## 📜 Lisensi
+## Lisensi
 
 MIT License — lihat [LICENSE](LICENSE)
 
-## 🏫 Tentang
+## Tentang
 
 Prototipe ini dikembangkan sebagai bagian dari proyek **ISIF 2026** — Inovasi Sistem Informasi untuk pemantauan kualitas air secara otomatis menggunakan robot.
 
