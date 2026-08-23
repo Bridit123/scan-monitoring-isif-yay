@@ -1,5 +1,5 @@
 /**
- * AQUASCAN — Detail Panel Module
+ * [Your_Name] — Detail Panel Module
  * Handles the bottom detail panel with sensor data and mini map
  */
 
@@ -7,24 +7,25 @@
 // Sparkline SVG Generator
 // ============================================
 function sparklineSVG(values, highlightIdx, color) {
-  const w = 100, h = 26;
-  const min = Math.min.apply(null, values);
-  const max = Math.max.apply(null, values);
-  const range = (max - min) || 1;
-  const step = w / (values.length - 1);
+  var w = 100, h = 26;
+  var min = Math.min.apply(null, values.filter(function(v) { return v !== null; }));
+  var max = Math.max.apply(null, values.filter(function(v) { return v !== null; }));
+  var range = (max - min) || 1;
+  var step = w / (values.length - 1);
 
-  const pts = values.map(function(v, i) {
+  var pts = values.map(function(v, i) {
+    var val = v !== null ? v : 0;
     return {
       x: i * step,
-      y: h - 2 - ((v - min) / range) * (h - 4)
+      y: h - 2 - ((val - min) / range) * (h - 4)
     };
   });
 
-  const pathD = pts.map(function(p, i) {
+  var pathD = pts.map(function(p, i) {
     return (i === 0 ? 'M' : 'L') + p.x.toFixed(1) + ',' + p.y.toFixed(1);
   }).join(' ');
 
-  const hp = pts[highlightIdx];
+  var hp = pts[highlightIdx];
 
   return '<svg viewBox="0 0 ' + w + ' ' + h + '" width="' + w + '" height="' + h + '" style="display:block">' +
     '<path d="' + pathD + '" fill="none" stroke="' + color + '" stroke-width="1.8" opacity="0.7"/>' +
@@ -36,56 +37,79 @@ function sparklineSVG(values, highlightIdx, color) {
 // Open Detail Panel
 // ============================================
 function openDetailPanel(p, idx) {
-  const panel = document.getElementById('detailPanel');
-  const info = document.getElementById('detailInfo');
-  const cat = ipCategory(p.ip);
-  const isLatest = idx === currentData.length - 1;
+  var panel = document.getElementById('detailPanel');
+  var info = document.getElementById('detailInfo');
+  var cat = ipCategory(p.ip);
+  var isLatest = idx === currentData.length - 1;
 
-  info.innerHTML = `
-    <div class="detail-header animate-in">
-      <div class="detail-header-left">
-        <div class="detail-id">${p.id}${isLatest ? ' · Titik Terbaru' : ''}</div>
-        <div class="detail-name">${p.name}</div>
-        <div class="detail-loc">${p.locLabel}</div>
-        <div class="detail-coord">${p.lat.toFixed(4)}, ${p.lng.toFixed(4)}</div>
-      </div>
-      <button class="detail-close-btn" id="detailCloseBtn" aria-label="Tutup detail">✕</button>
-    </div>
+  // Build sensor cards — 6 sensors
+  var sensorCards = '';
 
-    <div class="detail-ip-row animate-in" style="animation-delay:0.05s">
-      <div class="detail-ip-badge" style="background:${cat.bg}; color:${cat.color};">
-        <span class="dot" style="background:${cat.color}"></span>
-        ${cat.label}
-      </div>
-      <div class="detail-ip-info">
-        Indeks Pencemar: <strong>${p.ip}</strong> · Titik ke-${idx + 1} dari ${currentData.length}
-      </div>
-    </div>
+  // 1. pH
+  sensorCards += '<div class="sensor-card" style="border-left-color:' + cat.color + '">' +
+    '<div class="sensor-label">pH Air</div>' +
+    '<div class="sensor-value">' + p.ph + '</div>' +
+    '<div class="sensor-sparkline">' + sparklineSVG(currentData.map(function(d) { return d.ph; }), idx, cat.color) + '</div>' +
+    '</div>';
 
-    <div class="detail-sensors-title animate-in" style="animation-delay:0.1s">Data Sensor</div>
-    <div class="detail-sensors-grid animate-in" style="animation-delay:0.15s">
-      <div class="sensor-card" style="border-left-color:${cat.color}">
-        <div class="sensor-label">pH Air</div>
-        <div class="sensor-value">${p.ph}</div>
-        <div class="sensor-sparkline">${sparklineSVG(currentData.map(function(d) { return d.ph; }), idx, cat.color)}</div>
-      </div>
-      <div class="sensor-card" style="border-left-color:${cat.color}">
-        <div class="sensor-label">TDS</div>
-        <div class="sensor-value">${p.tds}<span class="sensor-unit">ppm</span></div>
-        <div class="sensor-sparkline">${sparklineSVG(currentData.map(function(d) { return d.tds; }), idx, cat.color)}</div>
-      </div>
-      <div class="sensor-card" style="border-left-color:${cat.color}">
-        <div class="sensor-label">Turbiditas</div>
-        <div class="sensor-value">${p.turbidity}<span class="sensor-unit">NTU</span></div>
-        <div class="sensor-sparkline">${sparklineSVG(currentData.map(function(d) { return d.turbidity; }), idx, cat.color)}</div>
-      </div>
-      <div class="sensor-card" style="border-left-color:${cat.color}">
-        <div class="sensor-label">Suhu Air</div>
-        <div class="sensor-value">${p.temp}<span class="sensor-unit">°C</span></div>
-        <div class="sensor-sparkline">${sparklineSVG(currentData.map(function(d) { return d.temp; }), idx, cat.color)}</div>
-      </div>
-    </div>
-  `;
+  // 2. Salinitas
+  sensorCards += '<div class="sensor-card" style="border-left-color:#06B6D4">' +
+    '<div class="sensor-label">Salinitas</div>' +
+    '<div class="sensor-value">' + p.salinity + '<span class="sensor-unit">ppt</span></div>' +
+    '<div class="sensor-sparkline">' + sparklineSVG(currentData.map(function(d) { return d.salinity; }), idx, '#06B6D4') + '</div>' +
+    '</div>';
+
+  // 3. TDS
+  sensorCards += '<div class="sensor-card" style="border-left-color:' + cat.color + '">' +
+    '<div class="sensor-label">TDS</div>' +
+    '<div class="sensor-value">' + p.tds + '<span class="sensor-unit">ppm</span></div>' +
+    '<div class="sensor-sparkline">' + sparklineSVG(currentData.map(function(d) { return d.tds; }), idx, cat.color) + '</div>' +
+    '</div>';
+
+  // 4. Minyak
+  sensorCards += '<div class="sensor-card" style="border-left-color:#F59E0B">' +
+    '<div class="sensor-label">Minyak</div>' +
+    '<div class="sensor-value">' + p.oil + '<span class="sensor-unit">mg/L</span></div>' +
+    '<div class="sensor-sparkline">' + sparklineSVG(currentData.map(function(d) { return d.oil; }), idx, '#F59E0B') + '</div>' +
+    '</div>';
+
+  // 5. Partikel
+  sensorCards += '<div class="sensor-card" style="border-left-color:#F97316">' +
+    '<div class="sensor-label">Partikel</div>' +
+    '<div class="sensor-value">' + p.particle + '<span class="sensor-unit">NTU</span></div>' +
+    '<div class="sensor-sparkline">' + sparklineSVG(currentData.map(function(d) { return d.particle; }), idx, '#F97316') + '</div>' +
+    '</div>';
+
+  // 6. Oksigen (planned — show N/A)
+  sensorCards += '<div class="sensor-card" style="border-left-color:#10B981; opacity:0.5;">' +
+    '<div class="sensor-label">Oksigen <span style="font-size:8px;color:#10B981;background:rgba(16,185,129,0.1);padding:1px 5px;border-radius:99px;">SEGERA</span></div>' +
+    '<div class="sensor-value" style="color:var(--muted)">—</div>' +
+    '</div>';
+
+  info.innerHTML =
+    '<div class="detail-header animate-in">' +
+      '<div class="detail-header-left">' +
+        '<div class="detail-id">' + p.id + (isLatest ? ' · Titik Terbaru' : '') + '</div>' +
+        '<div class="detail-name">' + p.name + '</div>' +
+        '<div class="detail-loc">' + p.locLabel + '</div>' +
+        '<div class="detail-coord">' + p.lat.toFixed(4) + ', ' + p.lng.toFixed(4) + '</div>' +
+      '</div>' +
+      '<button class="detail-close-btn" id="detailCloseBtn" aria-label="Tutup detail">✕</button>' +
+    '</div>' +
+    '<div class="detail-ip-row animate-in" style="animation-delay:0.05s">' +
+      '<div class="detail-ip-badge" style="background:' + cat.bg + '; color:' + cat.color + ';">' +
+        '<span class="dot" style="background:' + cat.color + '"></span>' +
+        cat.label +
+      '</div>' +
+      '<div class="detail-ip-info">' +
+        'Indeks Pencemar: <strong>' + p.ip + '</strong> · Titik ke-' + (idx + 1) + ' dari ' + currentData.length +
+        ' · Suhu: <strong>' + p.waterTemp + '°C</strong>' +
+      '</div>' +
+    '</div>' +
+    '<div class="detail-sensors-title animate-in" style="animation-delay:0.1s">Data Sensor</div>' +
+    '<div class="detail-sensors-grid detail-sensors-grid-6 animate-in" style="animation-delay:0.15s">' +
+      sensorCards +
+    '</div>';
 
   // Close button
   document.getElementById('detailCloseBtn').addEventListener('click', closeDetailPanel);

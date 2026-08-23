@@ -1,5 +1,5 @@
 /**
- * AQUASCAN — Sidebar Module
+ * [Your_Name] — Sidebar Module
  * Handles sidebar list rendering, search, and item selection
  */
 

@@ -1,5 +1,5 @@
 /* ============================================ */
-/*  AQUASCAN — Design System                    */
+/*  [Your_Name] — Design System                  */
 /*  Sistem Pemantauan Kualitas Air              */
 /*  ISIF 2026                                   */
 /* ============================================ */
@@ -139,6 +139,7 @@ nav.topnav a.active { color: #fff; background: rgba(255,255,255,0.12); }
   display: flex;
   height: calc(100vh - var(--header-height));
   position: relative;
+  width: 100%;
 }
 
 /* ============================================ */
@@ -323,6 +324,9 @@ nav.topnav a.active { color: #fff; background: rgba(255,255,255,0.12); }
 }
 .popup-content .popup-grid {
   display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px;
+}
+.popup-content .popup-grid-3 {
+  grid-template-columns: 1fr 1fr 1fr;
 }
 .popup-content .popup-param {
   font-size: 11px; color: var(--muted);
@@ -514,6 +518,9 @@ nav.topnav a.active { color: #fff; background: rgba(255,255,255,0.12); }
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
 }
+.detail-sensors-grid-6 {
+  grid-template-columns: repeat(6, 1fr);
+}
 .sensor-card {
   background: var(--surface-alt);
   border-radius: var(--radius-sm);
@@ -584,6 +591,7 @@ nav.topnav a.active { color: #fff; background: rgba(255,255,255,0.12); }
 /* ============================================ */
 @media (max-width: 1024px) {
   .detail-sensors-grid { grid-template-columns: repeat(2, 1fr); }
+  .detail-sensors-grid-6 { grid-template-columns: repeat(3, 1fr); }
   .detail-minimap-section { width: 250px; min-width: 250px; }
   nav.topnav { display: none; }
 }
@@ -609,6 +617,7 @@ nav.topnav a.active { color: #fff; background: rgba(255,255,255,0.12); }
     border-top: 1px solid var(--line-light);
   }
   .detail-sensors-grid { grid-template-columns: repeat(2, 1fr); }
+  .detail-sensors-grid-6 { grid-template-columns: repeat(2, 1fr); }
   .map-info-overlay { left: 60px; }
 }
 

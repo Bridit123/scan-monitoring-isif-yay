@@ -1,6 +1,6 @@
 /**
- * AQUASCAN — App Entry Point
- * Main application logic, event listeners, and state management
+ * [Your_Name] — App Entry Point
+ * Main application logic, event listeners, routing, and state management
  */
 
 // ============================================
@@ -8,23 +8,65 @@
 // ============================================
 let currentData = [];
 let selectedIdx = -1;
+let mapInitialized = false;
+let currentPage = 'Home';
+
+// ============================================
+// Page Navigation / SPA Routing
+// ============================================
+function navigateTo(page) {
+  currentPage = page;
+
+  // Hide all pages
+  document.querySelectorAll('.page').forEach(function(p) {
+    p.classList.remove('active');
+  });
+
+  // Show target page
+  var pageId = page === 'Home' ? 'pageHome' : 'pageApp';
+  document.getElementById(pageId).classList.add('active');
+
+  // Update nav active state
+  document.querySelectorAll('.topnav a').forEach(function(a) {
+    a.classList.remove('active');
+  });
+
+  if (page === 'Home') {
+    document.getElementById('navBeranda').classList.add('active');
+    document.body.classList.add('page-scrollable');
+    window.scrollTo(0, 0);
+  } else {
+    document.getElementById('navPeta').classList.add('active');
+    document.body.classList.remove('page-scrollable');
+
+    // Initialize map only on first visit
+    if (!mapInitialized) {
+      initMap();
+      renderAll('ciliwung');
+      mapInitialized = true;
+    } else {
+      // Resize map in case it was hidden
+      setTimeout(function() { mainMap.invalidateSize(); }, 100);
+    }
+  }
+}
 
 // ============================================
 // Select Point (central handler)
 // ============================================
 function selectPoint(idx) {
   selectedIdx = idx;
-  const p = currentData[idx];
-  const cat = ipCategory(p.ip);
+  var p = currentData[idx];
+  var cat = ipCategory(p.ip);
 
   // Update sidebar active state
   updateSidebarActiveState(idx);
 
   // Update marker styles (highlight selected)
   markers.forEach(function(m, i) {
-    const markerCat = ipCategory(currentData[i].ip);
-    const isLatest = i === currentData.length - 1;
-    const isActive = i === idx;
+    var markerCat = ipCategory(currentData[i].ip);
+    var isLatest = i === currentData.length - 1;
+    var isActive = i === idx;
     m.setIcon(createMarkerIcon(markerCat.color, i + 1, isLatest || isActive));
     m.setZIndexOffset(isActive ? 1000 : 0);
   });
@@ -71,9 +113,9 @@ function renderAll(loc) {
 // Update Timestamp
 // ============================================
 function updateTimestamp() {
-  const now = new Date();
-  const opts = { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' };
-  const ts = now.toLocaleString('id-ID', opts) + ' WIB';
+  var now = new Date();
+  var opts = { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' };
+  var ts = now.toLocaleString('id-ID', opts) + ' WIB';
   document.getElementById('headerTimestamp').textContent = ts;
 }
 
@@ -81,36 +123,72 @@ function updateTimestamp() {
 // Event Listeners
 // ============================================
 document.addEventListener('DOMContentLoaded', function() {
-  // Initialize maps
-  initMap();
 
-  // Initial render
-  renderAll('ciliwung');
+  // Initialize homepage
+  initHomepage();
 
-  // Location dropdown change
-  document.getElementById('locationSelect').addEventListener('change', function(e) {
-    renderAll(e.target.value);
+  // Update timestamp
+  updateTimestamp();
+
+  // ---- Navigation ----
+  document.getElementById('navBeranda').addEventListener('click', function(e) {
+    e.preventDefault();
+    navigateTo('Home');
   });
 
-  // Search input
+  document.getElementById('navPeta').addEventListener('click', function(e) {
+    e.preventDefault();
+    navigateTo('App');
+  });
+
+  // Dashboard & Dataset — not yet implemented
+  document.getElementById('navDashboard').addEventListener('click', function(e) {
+    e.preventDefault();
+  });
+  document.getElementById('navData').addEventListener('click', function(e) {
+    e.preventDefault();
+  });
+
+  // Hero CTA button → navigate to map
+  document.getElementById('ctaPeta').addEventListener('click', function() {
+    navigateTo('App');
+  });
+
+  // Footer navigation
+  var footerBeranda = document.getElementById('footerNavBeranda');
+  if (footerBeranda) {
+    footerBeranda.addEventListener('click', function(e) {
+      e.preventDefault();
+      navigateTo('Home');
+    });
+  }
+  var footerPeta = document.getElementById('footerNavPeta');
+  if (footerPeta) {
+    footerPeta.addEventListener('click', function(e) {
+      e.preventDefault();
+      navigateTo('App');
+    });
+  }
+
+  // ---- Map Page Events (deferred, set up once map exists) ----
+  document.getElementById('locationSelect').addEventListener('change', function(e) {
+    if (mapInitialized) {
+      renderAll(e.target.value);
+    }
+  });
+
   document.getElementById('searchInput').addEventListener('input', function(e) {
     renderSidebarList(currentData, e.target.value);
   });
 
-  // Sidebar toggle (mobile)
   document.getElementById('sidebarToggle').addEventListener('click', function() {
     document.getElementById('sidebar').classList.toggle('open');
   });
 
-  // Close sidebar when clicking on map (mobile)
-  mainMap.on('click', function() {
-    if (window.innerWidth <= 768) {
-      document.getElementById('sidebar').classList.remove('open');
-    }
-  });
-
   // Handle window resize
   window.addEventListener('resize', function() {
-    mainMap.invalidateSize();
+    if (mapInitialized && mainMap) {
+      mainMap.invalidateSize();
+    }
   });
 });

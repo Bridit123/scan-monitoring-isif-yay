@@ -4,9 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AQUASCAN — Sistem Pemantauan Kualitas Air | ISIF 2026</title>
+  <title>[Your_Name] — Sistem Pemantauan Kualitas Air | ISIF 2026</title>
   <meta name="description"
-    content="AQUASCAN: Sistem pemantauan kualitas air berbasis robot otomatis dengan peta interaktif OpenStreetMap. Prototipe ISIF 2026.">
+    content="Sistem robot otonom untuk memetakan kualitas air sungai dan danau di Indonesia secara real-time. Prototipe ISIF 2026.">
 
   <!-- Leaflet CSS & JS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -21,20 +21,21 @@
     href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
     rel="stylesheet">
 
-  <!-- App Stylesheet -->
+  <!-- App Stylesheets -->
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/home.css">
 </head>
 
-<body>
+<body class="page-scrollable">
 
   <!-- ========== HEADER ========== -->
-  <header class="topbar">
+  <header class="topbar" id="mainHeader">
     <div class="topbar-inner">
       <div class="brand-group">
         <div class="brand-icon">🌊</div>
         <div class="brand-text">
           <div class="eyebrow">Sistem Pemantauan Kualitas Air</div>
-          <h1>AQUASCAN</h1>
+          <h1>[Your_Name]</h1>
         </div>
       </div>
       <nav class="topnav">
@@ -50,87 +51,646 @@
     </div>
   </header>
 
-  <!-- ========== MAIN APP LAYOUT ========== -->
-  <div class="app-layout">
+  <!-- ================================================================ -->
+  <!-- PAGE: BERANDA (HOME)                                             -->
+  <!-- ================================================================ -->
+  <main id="pageHome" class="page active">
 
-    <!-- Sidebar Toggle (mobile) -->
-    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">☰</button>
+    <!-- ========== HERO ========== -->
+    <section class="hero" id="heroSection">
+      <!-- Animated background layers -->
+      <div class="hero-bg-layer"></div>
+      <div class="hero-grid-overlay"></div>
 
-    <!-- ========== SIDEBAR ========== -->
-    <aside class="sidebar" id="sidebar">
-      <div class="sidebar-header">
-        <div class="sidebar-title">
-          Titik Pemantauan
-          <span class="count" id="pointCount">16</span>
-        </div>
-        <select class="location-select" id="locationSelect">
-          <option value="ciliwung">📍 Sungai Ciliwung — Depok, Jawa Barat</option>
-          <option value="setu">📍 Setu Babakan — Jagakarsa, DKI Jakarta</option>
-        </select>
-        <div class="search-box">
-          <span class="search-icon">🔍</span>
-          <input type="text" id="searchInput" placeholder="Cari titik pemantauan...">
-        </div>
-      </div>
-      <div class="sidebar-list" id="sidebarList"></div>
-    </aside>
-
-    <!-- ========== MAP + DETAIL ========== -->
-    <div class="map-area">
-      <div id="mainMap"></div>
-
-      <!-- Map overlays -->
-      <div class="map-info-overlay" id="mapInfoOverlay">
-        <div class="info-dot"></div>
-        <div class="info-text">
-          <span id="infoLive">16</span> titik aktif · Pemantauan real-time
-        </div>
+      <!-- Floating water particles (CSS-only) -->
+      <div class="hero-particles">
+        <span class="particle" style="left:12%;top:20%;animation-delay:0s;"></span>
+        <span class="particle" style="left:28%;top:55%;animation-delay:2.5s;"></span>
+        <span class="particle" style="left:45%;top:30%;animation-delay:1.2s;"></span>
+        <span class="particle" style="left:62%;top:65%;animation-delay:3.8s;"></span>
+        <span class="particle" style="left:78%;top:25%;animation-delay:0.8s;"></span>
+        <span class="particle" style="left:85%;top:50%;animation-delay:4.2s;"></span>
+        <span class="particle" style="left:35%;top:75%;animation-delay:2.1s;"></span>
+        <span class="particle" style="left:55%;top:15%;animation-delay:5s;"></span>
+        <span class="particle" style="left:8%;top:70%;animation-delay:1.8s;"></span>
+        <span class="particle" style="left:92%;top:40%;animation-delay:3.3s;"></span>
       </div>
 
-      <div class="map-legend" id="mapLegend">
-        <h4>Indeks Pencemar (IP)</h4>
-        <div class="legend-row">
-          <span class="legend-dot" style="background:var(--ip-good)"></span>
-          <span class="legend-label">Memenuhi Bakumutu</span>
-          <span class="legend-range">0 – 1</span>
-        </div>
-        <div class="legend-row">
-          <span class="legend-dot" style="background:var(--ip-light)"></span>
-          <span class="legend-label">Cemar Ringan</span>
-          <span class="legend-range">1 – 5</span>
-        </div>
-        <div class="legend-row">
-          <span class="legend-dot" style="background:var(--ip-medium)"></span>
-          <span class="legend-label">Cemar Sedang</span>
-          <span class="legend-range">5 – 10</span>
-        </div>
-        <div class="legend-row">
-          <span class="legend-dot" style="background:var(--ip-heavy)"></span>
-          <span class="legend-label">Cemar Berat</span>
-          <span class="legend-range">≥ 10</span>
+      <!-- Wave SVG -->
+      <svg class="hero-waves" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 200" preserveAspectRatio="none">
+        <path class="hero-wave-path hw-1"
+          d="M0,120L60,110C120,100,240,80,360,85.3C480,91,600,120,720,128C840,136,960,120,1080,104C1200,88,1320,72,1380,64L1440,56L1440,200L0,200Z" />
+        <path class="hero-wave-path hw-2"
+          d="M0,140L60,148C120,156,240,172,360,168C480,164,600,140,720,132C840,124,960,132,1080,140C1200,148,1320,156,1380,160L1440,164L1440,200L0,200Z" />
+        <path class="hero-wave-path hw-3"
+          d="M0,172L60,168C120,164,240,156,360,160C480,164,600,180,720,184C840,188,960,180,1080,172C1200,164,1320,156,1380,152L1440,148L1440,200L0,200Z" />
+      </svg>
+
+      <!-- Hero content -->
+      <div class="hero-content">
+        <span class="hero-eyebrow">ISIF 2026 · Prototipe Riset</span>
+        <h2 class="hero-title">[Your_Name]</h2>
+        <p class="hero-subtitle">
+          Sistem robot otonom untuk memetakan kualitas air
+          sungai dan danau di Indonesia —<br>secara <em>real-time</em>, per 1 meter.
+        </p>
+        <div class="hero-actions">
+          <button class="btn-hero-primary" id="ctaPeta">
+            Buka Peta Monitoring
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </button>
+          <a href="#sectionProblem" class="btn-hero-ghost">
+            Pelajari Lebih Lanjut
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 5v14M5 12l7 7 7-7" />
+            </svg>
+          </a>
         </div>
       </div>
 
-      <!-- Detail Panel -->
-      <div class="detail-panel" id="detailPanel">
-        <div class="detail-inner">
-          <div class="detail-info" id="detailInfo"></div>
-          <div class="detail-minimap-section">
-            <div class="detail-minimap-title" id="detailMinimapTitle">Map Lokasi Titik Sampel</div>
-            <div id="detailMiniMap"></div>
+      <!-- Hero bottom stats ticker -->
+      <div class="hero-ticker">
+        <div class="hero-ticker-item">
+          <span class="hero-ticker-num" data-count="6">0</span>
+          <span class="hero-ticker-label">Sensor Aktif</span>
+        </div>
+        <div class="hero-ticker-sep"></div>
+        <div class="hero-ticker-item">
+          <span class="hero-ticker-num" data-count="1">0</span>
+          <span class="hero-ticker-label">Meter / Titik Data</span>
+        </div>
+        <div class="hero-ticker-sep"></div>
+        <div class="hero-ticker-item">
+          <span class="hero-ticker-num" data-count="2">0</span>
+          <span class="hero-ticker-label">Lokasi Pilot</span>
+        </div>
+        <div class="hero-ticker-sep"></div>
+        <div class="hero-ticker-item">
+          <span class="hero-ticker-num">24/7</span>
+          <span class="hero-ticker-label">Pemantauan</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== SECTION: PROBLEM ========== -->
+    <section class="hm-section section-problem" id="sectionProblem">
+      <div class="hm-container">
+        <div class="section-intro reveal">
+          <span class="section-eyebrow">Latar Belakang</span>
+          <h3 class="section-heading">Indonesia Memiliki Ribuan Sungai — <br>Sebagian Besar <span
+              class="text-accent">Belum Termonitoring</span></h3>
+          <p class="section-desc">
+            Pendataan kualitas air di Indonesia masih sangat terbatas. Sungai besar seperti
+            <strong>Kali Ciliwung</strong> dan danau seperti <strong>Setu Babakan</strong> belum memiliki data
+            monitoring reguler — kita tidak tahu kadar salinitas, mineral, atau tingkat pencemarannya.
+          </p>
+        </div>
+
+        <div class="problem-grid">
+          <div class="problem-card reveal" style="animation-delay: 0.1s">
+            <div class="problem-card-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z" />
+                <path d="M8 2v16M16 6v16" />
+              </svg>
+            </div>
+            <div class="problem-card-num" data-count="5590">0</div>
+            <div class="problem-card-label">Sungai utama di Indonesia</div>
+            <div class="problem-card-sub">Sumber: Kementerian PUPR</div>
+          </div>
+
+          <div class="problem-card reveal" style="animation-delay: 0.2s">
+            <div class="problem-card-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M2 12h20" />
+                <path
+                  d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
+              </svg>
+            </div>
+            <div class="problem-card-num" data-count="65">0</div>
+            <div class="problem-card-label">Danau besar tercatat</div>
+            <div class="problem-card-sub">Termasuk 15 danau prioritas nasional</div>
+          </div>
+
+          <div class="problem-card problem-card-highlight reveal" style="animation-delay: 0.3s">
+            <div class="problem-card-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+                <line x1="12" y1="9" x2="12" y2="13" />
+                <line x1="12" y1="17" x2="12.01" y2="17" />
+              </svg>
+            </div>
+            <div class="problem-card-num">&lt;10<span class="problem-pct">%</span></div>
+            <div class="problem-card-label">Yang dimonitoring reguler</div>
+            <div class="problem-card-sub">Data berkala sangat terbatas</div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
+    <!-- ========== SECTION: SENSORS ========== -->
+    <section class="hm-section section-sensors" id="sectionSensors">
+      <div class="hm-container">
+        <div class="section-intro reveal">
+          <span class="section-eyebrow">Teknologi Sensor</span>
+          <h3 class="section-heading">6 Sensor untuk Memahami Kualitas Air <span class="text-accent">Secara
+              Menyeluruh</span></h3>
+          <p class="section-desc">
+            Setiap titik pengambilan data mencakup pembacaan dari enam sensor berbeda,
+            memberikan gambaran lengkap kondisi air.
+          </p>
+        </div>
+
+        <div class="sensor-grid-home">
+          <!-- pH -->
+          <div class="sensor-home-card reveal" style="animation-delay:0.05s">
+            <div class="sensor-home-accent" style="background:#3B82F6"></div>
+            <div class="sensor-home-icon" style="color:#3B82F6">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z" />
+              </svg>
+            </div>
+            <div class="sensor-home-body">
+              <h4>Sensor pH</h4>
+              <p>Mengukur tingkat keasaman atau kebasaan air. Rentang ideal untuk ekosistem: 6.5 – 8.5 pH.</p>
+              <span class="sensor-home-unit">Satuan: pH</span>
+            </div>
+          </div>
+
+          <!-- Salinitas -->
+          <div class="sensor-home-card reveal" style="animation-delay:0.1s">
+            <div class="sensor-home-accent" style="background:#06B6D4"></div>
+            <div class="sensor-home-icon" style="color:#06B6D4">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 12h2l3-9 4 18 4-18 3 9h4" />
+              </svg>
+            </div>
+            <div class="sensor-home-body">
+              <h4>Sensor Salinitas</h4>
+              <p>Mengukur kadar garam terlarut di air. Menentukan apakah air tawar, payau, atau asin.</p>
+              <span class="sensor-home-unit">Satuan: ppt</span>
+            </div>
+          </div>
+
+          <!-- TDS -->
+          <div class="sensor-home-card reveal" style="animation-delay:0.15s">
+            <div class="sensor-home-accent" style="background:#0D9488"></div>
+            <div class="sensor-home-icon" style="color:#0D9488">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                <path d="M14 2v6h6" />
+                <circle cx="10" cy="14" r="1" fill="currentColor" />
+                <circle cx="14" cy="16" r="1" fill="currentColor" />
+                <circle cx="12" cy="12" r="1" fill="currentColor" />
+              </svg>
+            </div>
+            <div class="sensor-home-body">
+              <h4>Sensor TDS</h4>
+              <p>Total Dissolved Solids — mengukur total padatan terlarut dalam air. Indikator kemurnian air.</p>
+              <span class="sensor-home-unit">Satuan: ppm</span>
+            </div>
+          </div>
+
+          <!-- Minyak -->
+          <div class="sensor-home-card reveal" style="animation-delay:0.2s">
+            <div class="sensor-home-accent" style="background:#F59E0B"></div>
+            <div class="sensor-home-icon" style="color:#F59E0B">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z" />
+                <path d="M12 13v3" opacity="0.5" />
+              </svg>
+            </div>
+            <div class="sensor-home-body">
+              <h4>Sensor Minyak</h4>
+              <p>Mendeteksi kontaminasi minyak di permukaan dan dalam air. Polutan umum di sungai perkotaan.</p>
+              <span class="sensor-home-unit">Satuan: mg/L</span>
+            </div>
+          </div>
+
+          <!-- Partikel -->
+          <div class="sensor-home-card reveal" style="animation-delay:0.25s">
+            <div class="sensor-home-accent" style="background:#F97316"></div>
+            <div class="sensor-home-icon" style="color:#F97316">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="7" cy="7" r="2" />
+                <circle cx="17" cy="7" r="2" />
+                <circle cx="12" cy="17" r="2" />
+                <circle cx="5" cy="15" r="1.5" />
+                <circle cx="19" cy="14" r="1.5" />
+              </svg>
+            </div>
+            <div class="sensor-home-body">
+              <h4>Sensor Partikel</h4>
+              <p>Mengukur kekeruhan air (turbiditas) berdasarkan partikel tersuspensi. Semakin tinggi, semakin keruh.</p>
+              <span class="sensor-home-unit">Satuan: NTU</span>
+            </div>
+          </div>
+
+          <!-- Oksigen (Planned) -->
+          <div class="sensor-home-card sensor-home-card-planned reveal" style="animation-delay:0.3s">
+            <div class="sensor-home-accent" style="background:#10B981"></div>
+            <div class="sensor-home-icon" style="color:#10B981">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="8" cy="12" r="4" />
+                <circle cx="16" cy="12" r="4" />
+                <text x="8" y="14" text-anchor="middle" font-size="5" fill="currentColor"
+                  font-weight="700">O</text>
+                <text x="16" y="14" text-anchor="middle" font-size="5" fill="currentColor"
+                  font-weight="700">₂</text>
+              </svg>
+            </div>
+            <div class="sensor-home-body">
+              <h4>Sensor Oksigen <span class="sensor-badge-soon">Segera</span></h4>
+              <p>Mengukur kadar oksigen terlarut (DO). Kunci untuk menentukan habitat ikan dan kesehatan ekosistem.</p>
+              <span class="sensor-home-unit">Satuan: mg/L</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== SECTION: HOW IT WORKS ========== -->
+    <section class="hm-section section-how" id="sectionHow">
+      <div class="hm-container">
+        <div class="section-intro reveal">
+          <span class="section-eyebrow">Cara Kerja</span>
+          <h3 class="section-heading">Mapping Otomatis, <span class="text-accent">Satu Meter pada Satu
+              Waktu</span></h3>
+          <p class="section-desc">
+            Robot bergerak secara autonomous menyusuri sungai atau danau, mengambil data dari semua
+            sensor di setiap interval 1 meter.
+          </p>
+        </div>
+
+        <div class="how-timeline">
+          <!-- Step 1 -->
+          <div class="how-step reveal" style="animation-delay:0.1s">
+            <div class="how-step-num">01</div>
+            <div class="how-step-line"></div>
+            <div class="how-step-content">
+              <div class="how-step-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                </svg>
+              </div>
+              <h4>Deploy Robot</h4>
+              <p>Robot diturunkan ke badan air target — sungai, danau, atau waduk.</p>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="how-step reveal" style="animation-delay:0.2s">
+            <div class="how-step-num">02</div>
+            <div class="how-step-line"></div>
+            <div class="how-step-content">
+              <div class="how-step-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <circle cx="12" cy="12" r="3" />
+                  <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                </svg>
+              </div>
+              <h4>Scanning Per Meter</h4>
+              <p>Bergerak 1 meter → berhenti → baca semua sensor → simpan + kirim data → lanjut.</p>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="how-step reveal" style="animation-delay:0.3s">
+            <div class="how-step-num">03</div>
+            <div class="how-step-line"></div>
+            <div class="how-step-content">
+              <div class="how-step-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path d="M17 1l4 4-4 4" />
+                  <path d="M3 11V9a4 4 0 014-4h14" />
+                  <path d="M7 23l-4-4 4-4" />
+                  <path d="M21 13v2a4 4 0 01-4 4H3" />
+                </svg>
+              </div>
+              <h4>Putar Balik</h4>
+              <p>Setelah mencapai ujung, robot berbalik dan terus scanning area yang belum ter-cover.</p>
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="how-step reveal" style="animation-delay:0.4s">
+            <div class="how-step-num">04</div>
+            <div class="how-step-line" style="display:none"></div>
+            <div class="how-step-content">
+              <div class="how-step-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z" />
+                  <path d="M8 2v16M16 6v16" />
+                </svg>
+              </div>
+              <h4>Peta Terbentuk</h4>
+              <p>Seluruh data masuk ke dashboard secara real-time — peta kualitas air otomatis tersedia.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== SECTION: USE CASES ========== -->
+    <section class="hm-section section-usecases" id="sectionUsecases">
+      <div class="hm-container">
+        <div class="section-intro reveal">
+          <span class="section-eyebrow">Kegunaan Data</span>
+          <h3 class="section-heading">Dari Pertanian Hingga <span class="text-accent">Ekosistem Perairan</span></h3>
+        </div>
+
+        <div class="usecase-grid">
+          <!-- Tanaman -->
+          <div class="usecase-card reveal" style="animation-delay:0.1s">
+            <div class="usecase-icon" style="background: rgba(16,185,129,0.1); color: #10B981;">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 20.5C7 16.5 3 12 3 8a4 4 0 118 0c0 4-4 8.5-4 12.5" />
+                <path d="M17 20.5C17 16.5 13 12 13 8a4 4 0 118 0c0 4-4 8.5-4 12.5" />
+                <line x1="12" y1="22" x2="12" y2="15" />
+              </svg>
+            </div>
+            <h4>Pertanian & Irigasi</h4>
+            <p>Jika mineral terlalu tinggi atau pH terlalu asam/basa, air tidak cocok untuk menyiram tanaman dan
+              pertanian. Data sensor membantu petani memilih sumber air terbaik.</p>
+            <div class="usecase-sensors">
+              <span style="background:rgba(59,130,246,0.1);color:#3B82F6">pH</span>
+              <span style="background:rgba(13,148,136,0.1);color:#0D9488">TDS</span>
+              <span style="background:rgba(6,182,212,0.1);color:#06B6D4">Salinitas</span>
+            </div>
+          </div>
+
+          <!-- Manusia -->
+          <div class="usecase-card reveal" style="animation-delay:0.2s">
+            <div class="usecase-icon" style="background: rgba(59,130,246,0.1); color: #3B82F6;">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+            </div>
+            <h4>Kelayakan Konsumsi</h4>
+            <p>Air dengan mineral terlalu rendah kurang baik untuk konsumsi manusia. Sensor TDS dan salinitas memastikan
+              kadar mineral sesuai standar kesehatan.</p>
+            <div class="usecase-sensors">
+              <span style="background:rgba(13,148,136,0.1);color:#0D9488">TDS</span>
+              <span style="background:rgba(245,158,11,0.1);color:#F59E0B">Minyak</span>
+              <span style="background:rgba(59,130,246,0.1);color:#3B82F6">pH</span>
+            </div>
+          </div>
+
+          <!-- Ikan -->
+          <div class="usecase-card reveal" style="animation-delay:0.3s">
+            <div class="usecase-icon" style="background: rgba(6,182,212,0.1); color: #06B6D4;">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path
+                  d="M6.5 12c2-5 6-7 9.5-7 0 0 2 2 2 7s-2 7-2 7c-3.5 0-7.5-2-9.5-7z" />
+                <circle cx="14.5" cy="12" r="1" fill="currentColor" />
+                <path d="M2 12s2-3 4.5-3M2 12s2 3 4.5 3" />
+              </svg>
+            </div>
+            <h4>Ekosistem Perairan</h4>
+            <p>Ikan berkumpul di area dengan kadar oksigen tertinggi. Dengan sensor DO (rencana), kita bisa memetakan
+              habitat ideal dan menilai kesehatan ekosistem.</p>
+            <div class="usecase-sensors">
+              <span style="background:rgba(16,185,129,0.1);color:#10B981">Oksigen</span>
+              <span style="background:rgba(59,130,246,0.1);color:#3B82F6">pH</span>
+              <span style="background:rgba(249,115,22,0.1);color:#F97316">Partikel</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== SECTION: TRASH COLLECTOR ========== -->
+    <section class="hm-section section-trash" id="sectionTrash">
+      <div class="hm-container">
+        <div class="trash-card reveal">
+          <div class="trash-card-badge">Fitur Bonus</div>
+          <div class="trash-card-layout">
+            <div class="trash-card-text">
+              <h3>Pengambil Sampah Otomatis</h3>
+              <p>
+                Selain monitoring kualitas air, robot dilengkapi sistem pembersih sampah autonomous.
+                Tanpa kamera — kami menggunakan <strong>sensor jarak waterproof</strong> (sonar) untuk mendeteksi
+                objek mengambang di permukaan air.
+              </p>
+              <div class="trash-how">
+                <div class="trash-how-step">
+                  <div class="trash-how-num">1</div>
+                  <span>Sensor sonar mendeteksi objek di depan robot</span>
+                </div>
+                <div class="trash-how-step">
+                  <div class="trash-how-num">2</div>
+                  <span>Jika jarak &lt; threshold, robot mengidentifikasi objek mengambang</span>
+                </div>
+                <div class="trash-how-step">
+                  <div class="trash-how-num">3</div>
+                  <span>Aktuator pengambil sampah aktif secara otomatis</span>
+                </div>
+              </div>
+            </div>
+            <div class="trash-card-visual">
+              <div class="trash-sonar-demo">
+                <div class="trash-robot-icon">
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--teal-light)"
+                    stroke-width="1.5">
+                    <rect x="3" y="8" width="18" height="10" rx="2" />
+                    <circle cx="8" cy="18" r="2" />
+                    <circle cx="16" cy="18" r="2" />
+                    <line x1="12" y1="4" x2="12" y2="8" />
+                    <circle cx="12" cy="3" r="1" />
+                  </svg>
+                </div>
+                <div class="sonar-rings">
+                  <div class="sonar-ring"></div>
+                  <div class="sonar-ring" style="animation-delay:0.6s"></div>
+                  <div class="sonar-ring" style="animation-delay:1.2s"></div>
+                </div>
+                <div class="trash-object-icon">🗑️</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== SECTION: LOCATIONS ========== -->
+    <section class="hm-section section-locations" id="sectionLocations">
+      <div class="hm-container">
+        <div class="section-intro reveal">
+          <span class="section-eyebrow">Lokasi Pilot</span>
+          <h3 class="section-heading">Lokasi Pemantauan <span class="text-accent">Saat Ini</span></h3>
+        </div>
+        <div class="location-grid">
+          <div class="location-card reveal" style="animation-delay:0.1s">
+            <div class="location-card-map">
+              <div class="location-card-pin">📍</div>
+            </div>
+            <div class="location-card-info">
+              <h4>Sungai Ciliwung</h4>
+              <p class="location-card-region">Kota Depok, Jawa Barat</p>
+              <p class="location-card-desc">16 titik pemantauan mengikuti aliran sungai dari area UI hingga Cilodong.
+              </p>
+              <div class="location-card-meta">
+                <span>16 titik</span>
+                <span>~5.6 km</span>
+              </div>
+            </div>
+          </div>
+          <div class="location-card reveal" style="animation-delay:0.2s">
+            <div class="location-card-map location-card-map-setu">
+              <div class="location-card-pin">📍</div>
+            </div>
+            <div class="location-card-info">
+              <h4>Setu Babakan</h4>
+              <p class="location-card-region">Jagakarsa, DKI Jakarta</p>
+              <p class="location-card-desc">10 titik mengelilingi danau cagar budaya Betawi dari dermaga utara hingga
+                area budidaya ikan.</p>
+              <div class="location-card-meta">
+                <span>10 titik</span>
+                <span>~2.1 km</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="site-footer">
+      <div class="hm-container">
+        <div class="footer-inner">
+          <div class="footer-brand">
+            <div class="footer-logo">
+              <span class="brand-icon" style="font-size:14px; width:28px; height:28px; border-radius:8px;">🌊</span>
+              <span class="footer-logo-text">[Your_Name]</span>
+            </div>
+            <p class="footer-tagline">Sistem Pemantauan Kualitas Air<br>Prototipe ISIF 2026</p>
+          </div>
+          <div class="footer-nav">
+            <h5>Navigasi</h5>
+            <a href="#" id="footerNavBeranda">Beranda</a>
+            <a href="#" id="footerNavPeta">Peta Monitoring</a>
+            <a href="#" id="footerNavDashboard">Dashboard</a>
+            <a href="#" id="footerNavData">Dataset</a>
+          </div>
+          <div class="footer-nav">
+            <h5>Dokumentasi</h5>
+            <a href="docs/robot_integration_guide.md">Panduan Integrasi Robot</a>
+            <a href="#">API Reference</a>
+            <a href="#">Skema Data</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>© 2026 [Your_Name] — ISIF 2026. Seluruh hak cipta dilindungi.</span>
+        </div>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- ================================================================ -->
+  <!-- PAGE: PETA MONITORING (existing app layout)                      -->
+  <!-- ================================================================ -->
+  <div id="pageApp" class="page">
+    <div class="app-layout">
+
+      <!-- Sidebar Toggle (mobile) -->
+      <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">☰</button>
+
+      <!-- ========== SIDEBAR ========== -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <div class="sidebar-title">
+            Titik Pemantauan
+            <span class="count" id="pointCount">16</span>
+          </div>
+          <select class="location-select" id="locationSelect">
+            <option value="ciliwung">📍 Sungai Ciliwung — Depok, Jawa Barat</option>
+            <option value="setu">📍 Setu Babakan — Jagakarsa, DKI Jakarta</option>
+          </select>
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" placeholder="Cari titik pemantauan...">
+          </div>
+        </div>
+        <div class="sidebar-list" id="sidebarList"></div>
+      </aside>
+
+      <!-- ========== MAP + DETAIL ========== -->
+      <div class="map-area">
+        <div id="mainMap"></div>
+
+        <!-- Map overlays -->
+        <div class="map-info-overlay" id="mapInfoOverlay">
+          <div class="info-dot"></div>
+          <div class="info-text">
+            <span id="infoLive">16</span> titik aktif · Pemantauan real-time
+          </div>
+        </div>
+
+        <div class="map-legend" id="mapLegend">
+          <h4>Indeks Pencemar (IP)</h4>
+          <div class="legend-row">
+            <span class="legend-dot" style="background:var(--ip-good)"></span>
+            <span class="legend-label">Memenuhi Bakumutu</span>
+            <span class="legend-range">0 – 1</span>
+          </div>
+          <div class="legend-row">
+            <span class="legend-dot" style="background:var(--ip-light)"></span>
+            <span class="legend-label">Cemar Ringan</span>
+            <span class="legend-range">1 – 5</span>
+          </div>
+          <div class="legend-row">
+            <span class="legend-dot" style="background:var(--ip-medium)"></span>
+            <span class="legend-label">Cemar Sedang</span>
+            <span class="legend-range">5 – 10</span>
+          </div>
+          <div class="legend-row">
+            <span class="legend-dot" style="background:var(--ip-heavy)"></span>
+            <span class="legend-label">Cemar Berat</span>
+            <span class="legend-range">≥ 10</span>
+          </div>
+        </div>
+
+        <!-- Detail Panel -->
+        <div class="detail-panel" id="detailPanel">
+          <div class="detail-inner">
+            <div class="detail-info" id="detailInfo"></div>
+            <div class="detail-minimap-section">
+              <div class="detail-minimap-title" id="detailMinimapTitle">Map Lokasi Titik Sampel</div>
+              <div id="detailMiniMap"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
 
   <!-- ========== APP SCRIPTS ========== -->
-  <!-- Load order: data → map → sidebar → detail → app -->
+  <!-- Load order: data → map → sidebar → detail → home → app -->
   <script src="js/data.js"></script>
   <script src="js/map.js"></script>
   <script src="js/sidebar.js"></script>
   <script src="js/detail.js"></script>
+  <script src="js/home.js"></script>
   <script src="js/app.js"></script>
 
 </body>

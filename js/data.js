@@ -1,6 +1,14 @@
 /**
- * AQUASCAN — Data Titik Pemantauan
+ * [Your_Name] — Data Titik Pemantauan
  * Koordinat GPS di-trace langsung dari OpenStreetMap
+ * 
+ * Sensor:
+ * 1. pH — Tingkat keasaman/kebasaan
+ * 2. Salinitas — Kadar garam terlarut (ppt)
+ * 3. TDS — Total Dissolved Solids (ppm)
+ * 4. Minyak — Kontaminasi minyak (mg/L)
+ * 5. Partikel — Kekeruhan/turbiditas (NTU)
+ * 6. Oksigen — Dissolved Oxygen (mg/L) [PLANNED]
  * 
  * Lokasi:
  * 1. Sungai Ciliwung — aliran sungai melalui Kota Depok (16 titik)
@@ -58,11 +66,15 @@ function generateData(loc) {
       // Simulasi: titik 7-9 lebih tercemar (area padat penduduk)
       const bumpCenter = 8;
       const bump = Math.max(0, 1 - Math.abs(i - bumpCenter) / 3.5);
-      const ph = +(7.4 - bump * 1.8 + (Math.sin(i * 1.7) * 0.15)).toFixed(1);
-      const tds = Math.round(120 + bump * 350 + Math.sin(i * 2.3) * 15);
-      const turbidity = Math.round(8 + bump * 65 + Math.sin(i * 1.5) * 3);
-      const temp = +(27.5 + bump * 2.5 + Math.sin(i * 0.9) * 0.4).toFixed(1);
-      const ip = +(0.4 + bump * 13 + Math.sin(i * 1.2) * 0.3).toFixed(1);
+
+      const ph       = +(7.4 - bump * 1.8 + (Math.sin(i * 1.7) * 0.15)).toFixed(1);
+      const salinity = +(0.2 + bump * 0.6 + Math.sin(i * 1.3) * 0.05).toFixed(2);
+      const tds      = Math.round(120 + bump * 350 + Math.sin(i * 2.3) * 15);
+      const oil      = +(0.01 + bump * 0.15 + Math.abs(Math.sin(i * 1.9)) * 0.02).toFixed(2);
+      const particle = Math.round(8 + bump * 65 + Math.sin(i * 1.5) * 3);
+      const oxygen   = null;  // Sensor belum dipasang
+      const waterTemp = +(27.5 + bump * 2.5 + Math.sin(i * 0.9) * 0.4).toFixed(1);
+      const ip       = +(0.4 + bump * 13 + Math.sin(i * 1.2) * 0.3).toFixed(1);
 
       points.push({
         idx: i,
@@ -71,7 +83,7 @@ function generateData(loc) {
         lng: c[1],
         name: c[2],
         locLabel: 'Sungai Ciliwung, Kota Depok, Jawa Barat',
-        ph, tds, turbidity, temp, ip
+        ph, salinity, tds, oil, particle, oxygen, waterTemp, ip
       });
     });
 
@@ -99,11 +111,15 @@ function generateData(loc) {
       // Simulasi: titik 3-4 (inlet) lebih tercemar
       const bumpCenter = 3;
       const bump = Math.max(0, 1 - Math.abs(i - bumpCenter) / 3);
-      const ph = +(7.2 - bump * 1.2 + (Math.sin(i * 2.1) * 0.1)).toFixed(1);
-      const tds = Math.round(100 + bump * 200 + Math.sin(i * 1.8) * 10);
-      const turbidity = Math.round(5 + bump * 40 + Math.sin(i * 1.3) * 2);
-      const temp = +(28.0 + bump * 1.5 + Math.sin(i * 0.7) * 0.3).toFixed(1);
-      const ip = +(0.3 + bump * 8 + Math.sin(i * 1.5) * 0.2).toFixed(1);
+
+      const ph       = +(7.2 - bump * 1.2 + (Math.sin(i * 2.1) * 0.1)).toFixed(1);
+      const salinity = +(0.15 + bump * 0.35 + Math.sin(i * 1.6) * 0.03).toFixed(2);
+      const tds      = Math.round(100 + bump * 200 + Math.sin(i * 1.8) * 10);
+      const oil      = +(0.005 + bump * 0.08 + Math.abs(Math.sin(i * 2.2)) * 0.01).toFixed(3);
+      const particle = Math.round(5 + bump * 40 + Math.sin(i * 1.3) * 2);
+      const oxygen   = null;  // Sensor belum dipasang
+      const waterTemp = +(28.0 + bump * 1.5 + Math.sin(i * 0.7) * 0.3).toFixed(1);
+      const ip       = +(0.3 + bump * 8 + Math.sin(i * 1.5) * 0.2).toFixed(1);
 
       points.push({
         idx: i,
@@ -112,7 +128,7 @@ function generateData(loc) {
         lng: c[1],
         name: c[2],
         locLabel: 'Setu Babakan, Jagakarsa, DKI Jakarta',
-        ph, tds, turbidity, temp, ip
+        ph, salinity, tds, oil, particle, oxygen, waterTemp, ip
       });
     });
   }

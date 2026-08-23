@@ -1,5 +1,5 @@
 /**
- * AQUASCAN — Map Module
+ * [Your_Name] — Map Module
  * Handles Leaflet map initialization, markers, and routing
  */
 
@@ -93,11 +93,13 @@ function renderMapMarkers(data) {
         <div class="popup-id">${p.id}</div>
         <div class="popup-name">${p.name}</div>
         <div class="popup-coord">${p.lat.toFixed(4)}, ${p.lng.toFixed(4)}</div>
-        <div class="popup-grid">
+        <div class="popup-grid popup-grid-3">
           <div><div class="popup-param">pH</div><div class="popup-val">${p.ph}</div></div>
+          <div><div class="popup-param">Salinitas</div><div class="popup-val">${p.salinity} <small>ppt</small></div></div>
           <div><div class="popup-param">TDS</div><div class="popup-val">${p.tds} <small>ppm</small></div></div>
-          <div><div class="popup-param">Turbiditas</div><div class="popup-val">${p.turbidity} <small>NTU</small></div></div>
-          <div><div class="popup-param">Suhu</div><div class="popup-val">${p.temp} <small>°C</small></div></div>
+          <div><div class="popup-param">Minyak</div><div class="popup-val">${p.oil} <small>mg/L</small></div></div>
+          <div><div class="popup-param">Partikel</div><div class="popup-val">${p.particle} <small>NTU</small></div></div>
+          <div><div class="popup-param">Suhu</div><div class="popup-val">${p.waterTemp} <small>°C</small></div></div>
         </div>
         <div class="popup-badge" style="background:${cat.bg}; color:${cat.color};">
           <span class="popup-badge-dot" style="background:${cat.color}"></span>
