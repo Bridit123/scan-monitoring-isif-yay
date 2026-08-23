@@ -176,9 +176,9 @@ body:not(.page-scrollable) { overflow: hidden; }
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--teal-light);
-  background: rgba(13,148,136,0.12);
-  border: 1px solid rgba(13,148,136,0.25);
+  color: #fff;
+  background: var(--teal);
+  border: none;
   padding: 6px 16px;
   border-radius: 999px;
   margin-bottom: 28px;
@@ -640,24 +640,18 @@ body:not(.page-scrollable) { overflow: hidden; }
 /*  SECTION: TRASH COLLECTOR                     */
 /* ============================================ */
 .section-trash {
-  background: linear-gradient(170deg, #061E35 0%, #0A2E4D 100%);
+  background: #F0F9FF;
   padding: 80px 0;
 }
 
 .trash-card {
   position: relative;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: #FFFFFF;
+  border: 1px solid var(--line-light);
   border-radius: var(--radius-lg);
   padding: 48px;
   overflow: hidden;
-}
-.trash-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 3px;
-  background: linear-gradient(90deg, var(--teal), var(--teal-light), #3B82F6);
+  box-shadow: var(--shadow-lg);
 }
 
 .trash-card-badge {
@@ -667,9 +661,9 @@ body:not(.page-scrollable) { overflow: hidden; }
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--teal-light);
-  background: rgba(13,148,136,0.15);
-  border: 1px solid rgba(13,148,136,0.25);
+  color: #fff;
+  background: var(--teal);
+  border: none;
   padding: 5px 14px;
   border-radius: 999px;
   margin-bottom: 24px;
@@ -685,17 +679,17 @@ body:not(.page-scrollable) { overflow: hidden; }
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 28px;
   font-weight: 800;
-  color: #fff;
+  color: var(--ink);
   margin-bottom: 14px;
 }
 .trash-card-text p {
   font-size: 15px;
   line-height: 1.7;
-  color: rgba(255,255,255,0.55);
+  color: var(--ink-secondary);
   margin-bottom: 24px;
 }
 .trash-card-text strong {
-  color: var(--teal-light);
+  color: var(--teal);
 }
 
 .trash-how {
@@ -715,17 +709,17 @@ body:not(.page-scrollable) { overflow: hidden; }
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(13,148,136,0.15);
-  border: 1px solid rgba(13,148,136,0.3);
+  background: var(--teal-bg);
+  border: 1px solid rgba(13,148,136,0.15);
   border-radius: 50%;
   font-family: 'IBM Plex Mono', monospace;
   font-size: 12px;
   font-weight: 700;
-  color: var(--teal-light);
+  color: var(--teal);
 }
 .trash-how-step span {
   font-size: 14px;
-  color: rgba(255,255,255,0.6);
+  color: var(--ink-secondary);
   line-height: 1.5;
 }
 
@@ -772,6 +766,7 @@ body:not(.page-scrollable) { overflow: hidden; }
   right: 10px;
   top: 30px;
   font-size: 28px;
+  color: var(--muted);
   animation: trashBob 3s ease-in-out infinite;
 }
 @keyframes trashBob {
