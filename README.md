@@ -1,4 +1,4 @@
-# AQUASCAN — Sistem Pemantauan Kualitas Air 
+Sistem Pemantauan Kualitas Air 
 
 ![AQUASCAN](https://img.shields.io/badge/AQUASCAN-v1.0.0-0D9488?style=for-the-badge)
 ![ISIF 2026](https://img.shields.io/badge/ISIF-2026-0A2E4D?style=for-the-badge)
